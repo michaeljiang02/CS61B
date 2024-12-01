@@ -150,6 +150,7 @@ public class Model extends Observable {
 
     public int moveColUp(Board b, int col) {
         boolean changed = false;
+        boolean merged = false;
         for (int i = b.size() - 2; i >= 0; i --) {
             Tile moving = b.tile(col, i);
             if (moving == null) {
@@ -162,8 +163,13 @@ public class Model extends Observable {
                     changed = true;
                     break;
                 } else if (canMerge(b, fixed, moving, Side.NORTH)) {
-                    b.move(col, j, moving);
-                    score += moving.value() * 2;
+                    if (!merged) {
+                        b.move(col, j, moving);
+                        score += moving.value() * 2;
+                        merged = true;
+                    } else {
+                        b.move(col, j - 1, moving);
+                    }
                     changed = true;
                     break;
                 }
