@@ -109,6 +109,7 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
+        int checker = 0;
 
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
@@ -116,10 +117,12 @@ public class Model extends Observable {
 
         checkGameOver();
         for (int col = 0; col < board.size(); col++) {
-            score += moveColUp(board, col);
+            checker += moveColUp(board, col);
         }
-
-        return true;
+        if (checker > 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -146,7 +149,7 @@ public class Model extends Observable {
 
 
     public int moveColUp(Board b, int col) {
-        int score = 0;
+        boolean changed = false;
         for (int i = b.size() - 2; i >= 0; i --) {
             Tile moving = b.tile(col, i);
             if (moving == null) {
@@ -156,15 +159,21 @@ public class Model extends Observable {
                 Tile fixed = b.tile(col, j);
                 if (fixed == null) {
                     b.move(col, j, moving);
+                    changed = true;
                     break;
                 } else if (canMerge(b, fixed, moving, Side.NORTH)) {
                     b.move(col, j, moving);
                     score += moving.value() * 2;
+                    changed = true;
                     break;
                 }
                 }
             }
-        return score;
+        if (changed){
+            return 1;
+        } else {
+            return 0;
+        }
         }
 
     private void checkGameOver() {
