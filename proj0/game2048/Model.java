@@ -115,15 +115,55 @@ public class Model extends Observable {
         // changed local variable to true.
 
         checkGameOver();
-        if (changed) {
-            setChanged();
+        for (int col = 0; col < board.size(); col++) {
+            moveColUp(board, col);
         }
-        return changed;
+
+        return true;
     }
 
-    /** Checks if the game is over and sets the gameOver variable
-     *  appropriately.
+    /**
+     * Checks if the game is over and sets the gameOver variable
+     * appropriately.
      */
+
+    private boolean canMerge(Board b, Tile first, Tile second, Side side){
+        if (first.value() != second.value()) {
+            return false;
+        } else if (side == Side.NORTH){
+            int col = first.col();
+            int row1 = first.row();
+            int row2 = second.row();
+
+            for (int row = 1; row < row1 - row2; row++) {
+                if (b.tile(col, row) != null && b.tile(col, row).value() != second.value()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public void moveColUp(Board b, int col) {
+        for (int i = b.size() - 2; i >= 0; i --) {
+            Tile moving = b.tile(col, i);
+            if (moving == null) {
+                continue;
+            }
+            for (int j = b.size() - 1; j > i; j--) {
+                Tile fixed = b.tile(col, j);
+                if (fixed == null) {
+                    b.move(col, j, moving);
+                    break;
+                } else if (canMerge(b, fixed, moving, Side.NORTH)) {
+                    b.move(col, j, moving);
+                    break;
+                }
+                }
+            }
+        }
+
     private void checkGameOver() {
         gameOver = checkGameOver(board);
     }
@@ -155,10 +195,10 @@ public class Model extends Observable {
     public static boolean maxTileExists(Board b) {
         for (int i = 0; i < b.size(); i++) {
             for (int j = 0; j < b.size(); j++) {
-                if (b.tile(i, j) == null) {
-                    continue;
-                } else if (b.tile(i, j).value() == MAX_PIECE) {
-                    return true;
+                if (b.tile(i, j) != null) {
+                    if (b.tile(i, j).value() == MAX_PIECE) {
+                        return true;
+                    }
                 }
             }
         }
