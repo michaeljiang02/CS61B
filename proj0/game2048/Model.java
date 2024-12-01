@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Michael Jiang
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -137,7 +137,13 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,9 +153,18 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) == null) {
+                    continue;
+                } else if (b.tile(i, j).value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
+
 
     /**
      * Returns true if there are any valid moves on the board.
@@ -158,10 +173,63 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if (adjacentTilesSameValue(b) || emptySpaceExists(b)) {
+            return true;
+        }
         return false;
     }
 
+    public static boolean checkAdjacentTiles(Board b, int col, int row) {
+        int[] indices = {-1, 1};
+        for (int index : indices) {
+
+
+            if (validIndex(b, col, row, index)) {
+                if (tileIsNull(b, col + index, row) || tileIsNull(b, col, row + index)) {
+                    continue;
+                } else if (tileIsNull(b, col, row)) {
+                    continue;
+                }
+                int colAdjacent = b.tile(col + index, row).value();
+                int rowAdjacent = b.tile(col, row + index).value();
+                int tileValue = b.tile(col, row).value();
+
+                if (colAdjacent == tileValue || rowAdjacent == tileValue) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean tileIsNull(Board b, int col, int row) {
+        if (b.tile(col, row) == null) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean validIndex(Board b, int col, int row, int index) {
+
+        if (col + index < 0 || col + index >= b.size()) {
+            return false;
+        } else if (row + index < 0 || row + index >= b.size()) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public static boolean adjacentTilesSameValue(Board b) {
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (checkAdjacentTiles(b, i, j)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
      /** Returns the model as a string, used for debugging. */
