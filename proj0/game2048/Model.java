@@ -116,7 +116,7 @@ public class Model extends Observable {
 
         checkGameOver();
         for (int col = 0; col < board.size(); col++) {
-            moveColUp(board, col);
+            score += moveColUp(board, col);
         }
 
         return true;
@@ -136,7 +136,7 @@ public class Model extends Observable {
             int row2 = second.row();
 
             for (int row = 1; row < row1 - row2; row++) {
-                if (b.tile(col, row) != null && b.tile(col, row).value() != second.value()) {
+                if (b.tile(col, row2 + row) != null && b.tile(col, row2 + row).value() != second.value()) {
                     return false;
                 }
             }
@@ -145,7 +145,8 @@ public class Model extends Observable {
     }
 
 
-    public void moveColUp(Board b, int col) {
+    public int moveColUp(Board b, int col) {
+        int score = 0;
         for (int i = b.size() - 2; i >= 0; i --) {
             Tile moving = b.tile(col, i);
             if (moving == null) {
@@ -158,10 +159,12 @@ public class Model extends Observable {
                     break;
                 } else if (canMerge(b, fixed, moving, Side.NORTH)) {
                     b.move(col, j, moving);
+                    score += moving.value() * 2;
                     break;
                 }
                 }
             }
+        return score;
         }
 
     private void checkGameOver() {
