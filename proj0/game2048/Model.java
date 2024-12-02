@@ -165,42 +165,41 @@ public class Model extends Observable {
 
     public int moveColUp(Board b, int col) {
         boolean changed = false;
-        boolean merged = false;
+        int merges = 0;
 
         for (int i = b.size() - 2; i >= 0; i--) {
             Tile moving = b.tile(col, i);
             if (moving == null) {
                 continue;
             }
-            for (int j = b.size() - 1; j > i; j--) {
+
+            for (int j = b.size() - merges - 1; j > i; j--) {
                 Tile fixed = b.tile(col, j);
+                // When there is an empty tile, move to it immediately
                 if (fixed == null) {
                     b.move(col, j, moving);
                     changed = true;
                     break;
-                } else if (canMerge(b, fixed, moving, Side.NORTH) || merged) {
-                    if (!merged) {
-                        b.move(col, j, moving);
-                        score += moving.value() * 2;
-                        merged = true;
-                    } else {
-                        b.move(col, j - 1, moving);
-                    }
+                } else if (canMerge(b, fixed, moving, Side.NORTH)) {
+                    b.move(col, j, moving);
+                    score += moving.value() * 2;
                     changed = true;
+                    merges += 1;
                     break;
                 }
-                }
             }
+        }
         if (changed){
             return 1;
         } else {
             return 0;
         }
-        }
+    }
 
     public int moveColDown(Board b, int col) {
         boolean changed = false;
         int merges = 0;
+
         for (int i = 1; i < b.size(); i++) {
             Tile moving = b.tile(col, i);
             if (moving == null) {
