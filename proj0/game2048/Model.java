@@ -205,24 +205,19 @@ public class Model extends Observable {
             if (moving == null) {
                 continue;
             }
-            for (int j = 0; j < i; j++) {
+            for (int j = merges; j < i; j++) {
                 Tile fixed = b.tile(col, j);
                 if (fixed == null) {
                     b.move(col, j, moving);
                     changed = true;
                     break;
                 } else if (canMerge(b, fixed, moving, Side.SOUTH)) {
-                    if (merges == 0) {
-                        b.move(col, j, moving);
-                        score += moving.value() * 2;
-                        merges += 1;
-                    } else {
-                        b.move(col, j + merges, moving);
-                        merges -=1;
-                    }
+                    b.move(col, j, moving);
+                    score += moving.value() * 2;
                     changed = true;
+                    merges += 1;
                     break;
-                }
+                    }
             }
         }
         if (changed){
@@ -235,27 +230,23 @@ public class Model extends Observable {
     public int moveColLeft(Board b, int row) {
         boolean changed = false;
         int merges = 0;
+
         for (int i = 1; i < b.size(); i++) {
             Tile moving = b.tile(i, row);
             if (moving == null) {
                 continue;
             }
-            for (int j = 0; j < i; j++) {
+            for (int j = merges; j < i; j++) {
                 Tile fixed = b.tile(j, row);
                 if (fixed == null) {
                     b.move(j, row, moving);
                     changed = true;
                     break;
-                } else if (canMerge(b, fixed, moving, Side.SOUTH)) {
-                    if (merges == 0) {
-                        b.move(j, row, moving);
-                        score += moving.value() * 2;
-                        merges += 1;
-                    } else {
-                        b.move(j + merges, row, moving);
-                        merges -= 1;
-                    }
+                } else if (canMerge(b, fixed, moving, Side.NORTH)) {
+                    b.move(j, row, moving);
+                    score += moving.value() * 2;
                     changed = true;
+                    merges += 1;
                     break;
                 }
             }
@@ -270,27 +261,23 @@ public class Model extends Observable {
     public int moveColRight(Board b, int row) {
         boolean changed = false;
         int merges = 0;
+
         for (int i = b.size() - 2; i >= 0; i--) {
             Tile moving = b.tile(i, row);
             if (moving == null) {
                 continue;
             }
-            for (int j = b.size() - 1; j > i; j--) {
+            for (int j = b.size() - merges - 1; j > i; j--) {
                 Tile fixed = b.tile(j, row);
                 if (fixed == null) {
                     b.move(j, row, moving);
                     changed = true;
                     break;
                 } else if (canMerge(b, fixed, moving, Side.NORTH)) {
-                    if (merges == 0) {
-                        b.move(j, row, moving);
-                        score += moving.value() * 2;
-                        merges += 1;
-                    } else {
-                        b.move(j - merges, row, moving);
-                        merges -= 1;
-                    }
+                    b.move(j, row, moving);
+                    score += moving.value() * 2;
                     changed = true;
+                    merges += 1;
                     break;
                 }
             }
