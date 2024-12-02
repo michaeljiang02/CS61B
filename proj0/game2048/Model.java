@@ -116,9 +116,24 @@ public class Model extends Observable {
         // changed local variable to true.
 
         checkGameOver();
-        for (int col = 0; col < board.size(); col++) {
-            checker += moveColUp(board, col);
+        if (side == Side.NORTH) {
+            for (int i = 0; i < board.size(); i++) {
+                checker += moveColUp(board, i);
+            }
+        } else if (side == Side.SOUTH) {
+            for (int i = 0; i < board.size(); i++) {
+                checker += moveColDown(board, i);
+            }
+        } else if (side == Side.WEST) {
+            for (int i = 0; i < board.size(); i++) {
+                checker += moveColLeft(board, i);
+            }
+        } else if (side == Side.EAST) {
+            for (int i = 0; i < board.size(); i++) {
+                checker += moveColRight(board, i);
+            }
         }
+
         if (checker > 0) {
             return true;
         }
@@ -151,7 +166,8 @@ public class Model extends Observable {
     public int moveColUp(Board b, int col) {
         boolean changed = false;
         boolean merged = false;
-        for (int i = b.size() - 2; i >= 0; i --) {
+
+        for (int i = b.size() - 2; i >= 0; i--) {
             Tile moving = b.tile(col, i);
             if (moving == null) {
                 continue;
@@ -162,7 +178,7 @@ public class Model extends Observable {
                     b.move(col, j, moving);
                     changed = true;
                     break;
-                } else if (canMerge(b, fixed, moving, Side.NORTH)) {
+                } else if (canMerge(b, fixed, moving, Side.NORTH) || merged) {
                     if (!merged) {
                         b.move(col, j, moving);
                         score += moving.value() * 2;
@@ -181,6 +197,112 @@ public class Model extends Observable {
             return 0;
         }
         }
+
+    public int moveColDown(Board b, int col) {
+        boolean changed = false;
+        int merges = 0;
+        for (int i = 1; i < b.size(); i++) {
+            Tile moving = b.tile(col, i);
+            if (moving == null) {
+                continue;
+            }
+            for (int j = 0; j < i; j++) {
+                Tile fixed = b.tile(col, j);
+                if (fixed == null) {
+                    b.move(col, j, moving);
+                    changed = true;
+                    break;
+                } else if (canMerge(b, fixed, moving, Side.SOUTH)) {
+                    if (merges == 0) {
+                        b.move(col, j, moving);
+                        score += moving.value() * 2;
+                        merges += 1;
+                    } else {
+                        b.move(col, j + merges, moving);
+                        merges -=1;
+                    }
+                    changed = true;
+                    break;
+                }
+            }
+        }
+        if (changed){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public int moveColLeft(Board b, int row) {
+        boolean changed = false;
+        int merges = 0;
+        for (int i = 1; i < b.size(); i++) {
+            Tile moving = b.tile(i, row);
+            if (moving == null) {
+                continue;
+            }
+            for (int j = 0; j < i; j++) {
+                Tile fixed = b.tile(j, row);
+                if (fixed == null) {
+                    b.move(j, row, moving);
+                    changed = true;
+                    break;
+                } else if (canMerge(b, fixed, moving, Side.SOUTH)) {
+                    if (merges == 0) {
+                        b.move(j, row, moving);
+                        score += moving.value() * 2;
+                        merges += 1;
+                    } else {
+                        b.move(j + merges, row, moving);
+                        merges -= 1;
+                    }
+                    changed = true;
+                    break;
+                }
+            }
+        }
+        if (changed){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public int moveColRight(Board b, int row) {
+        boolean changed = false;
+        int merges = 0;
+        for (int i = b.size() - 2; i >= 0; i--) {
+            Tile moving = b.tile(i, row);
+            if (moving == null) {
+                continue;
+            }
+            for (int j = b.size() - 1; j > i; j--) {
+                Tile fixed = b.tile(j, row);
+                if (fixed == null) {
+                    b.move(j, row, moving);
+                    changed = true;
+                    break;
+                } else if (canMerge(b, fixed, moving, Side.NORTH)) {
+                    if (merges == 0) {
+                        b.move(j, row, moving);
+                        score += moving.value() * 2;
+                        merges += 1;
+                    } else {
+                        b.move(j - merges, row, moving);
+                        merges -= 1;
+                    }
+                    changed = true;
+                    break;
+                }
+            }
+        }
+        if (changed){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 
     private void checkGameOver() {
         gameOver = checkGameOver(board);
