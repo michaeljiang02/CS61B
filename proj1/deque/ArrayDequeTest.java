@@ -51,13 +51,17 @@ public class ArrayDequeTest {
 
         alist2.addFirst("x");
         alist2.addFirst("x");
-        alist2.addFirst("x");
+        alist2.addFirst("random");
         alist2.addFirst("x");
         alist2.addFirst("x");
         Object last = alist2.removeLast();
         assertEquals("last", last);
         assertEquals("middle", alist2.items[alist2.nextLast - 1]);
 
+        Object item = alist2.get(5);
+        Object item2 = alist2.get(2);
+        assertEquals("middle", item);
+        assertEquals("random", item2);
         alist2.printDeque();
     }
 }

@@ -51,9 +51,13 @@ public class ArrayDeque<T> {
         return items[nextFirst];
     }
 
-//    public T get(int index) {
-//
-//    }
+    public T get(int index) {
+        int newIndex = nextFirst + 1 + index;
+        if (newIndex >= items.length) {
+            newIndex -= items.length;
+        }
+        return items[newIndex];
+    }
 
     public void incrementLast() {
         if (nextLast + 1 == items.length) {
