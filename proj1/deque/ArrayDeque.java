@@ -31,7 +31,7 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        nextLast -= 1;
+        decrementLast();
         size -= 1;
         return items[nextLast];
     }
@@ -46,7 +46,7 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        nextFirst += 1;
+        incrementFirst();
         size -= 1;
         return items[nextFirst];
     }
@@ -59,7 +59,7 @@ public class ArrayDeque<T> {
         return items[newIndex];
     }
 
-    public void incrementLast() {
+    private void incrementLast() {
         if (nextLast + 1 == items.length) {
             nextLast = 0;
         } else {
@@ -67,7 +67,15 @@ public class ArrayDeque<T> {
         }
     }
 
-    public void decrementFirst() {
+    private void decrementLast() {
+        if (nextLast == 0) {
+            nextLast = items.length - 1;
+        } else {
+            nextLast -= 1;
+        }
+    }
+
+    private void decrementFirst() {
         if (nextFirst == 0) {
             nextFirst = items.length - 1;
         } else {
@@ -75,12 +83,23 @@ public class ArrayDeque<T> {
         }
     }
 
+    private void incrementFirst() {
+        if (nextFirst + 1 == items.length) {
+            nextFirst = 0;
+        } else {
+            nextFirst += 1;
+        }
+    }
+
+
+
+
     public void printDeque() {
         int current = nextFirst + 1;
         if (current == items.length) {
             current = 0;
         }
-        while (current != nextLast) {
+        for (int i = 0; i < this.size; i++) {
             System.out.print(items[current] + " ");
             if (current + 1 == items.length) {
                 current = 0;

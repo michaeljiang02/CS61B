@@ -62,6 +62,26 @@ public class ArrayDequeTest {
         Object item2 = alist2.get(2);
         assertEquals("middle", item);
         assertEquals("random", item2);
+        alist2.addFirst("x");
+        alist2.addFirst("x");
+        alist2.removeFirst();
+        alist2.removeFirst();
+        alist2.removeFirst();
+        alist2.removeFirst();
+        alist2.removeFirst();
+        alist2.removeFirst();
+        alist2.removeFirst();
+        alist2.removeFirst();
+
+        alist2.addLast("middle");
+        alist2.addLast("last");
+        alist2.addLast("first");
+        alist2.addLast("x");
+        alist2.addLast("x");
+        alist2.addLast("random");
+        alist2.addLast("x");
+        alist2.addLast("x");
+
         alist2.printDeque();
     }
 }
