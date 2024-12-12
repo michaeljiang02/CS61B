@@ -23,7 +23,7 @@ public class ArrayDeque<T> {
 
     public void addLast(T item) {
         items[nextLast] = item;
-        nextLast = increment(nextLast);
+        nextLast = increment(nextLast, 1);
         size += 1;
     }
 
@@ -31,14 +31,14 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        nextLast = decrement(nextLast);
+        nextLast = decrement(nextLast, 1);
         size -= 1;
         return items[nextLast];
     }
 
     public void addFirst(T item) {
         items[nextFirst] = item;
-        nextFirst = decrement(nextFirst);
+        nextFirst = decrement(nextFirst, 1);
         size += 1;
     }
 
@@ -46,42 +46,32 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        nextFirst = increment(nextFirst);
+        nextFirst = increment(nextFirst, 1);
         size -= 1;
         return items[nextFirst];
     }
 
     public T get(int index) {
-        int newIndex = nextFirst + 1 + index;
-        if (newIndex >= items.length) {
-            newIndex -= items.length;
-        }
+        int newIndex = increment(nextFirst, index + 1);
         return items[newIndex];
     }
 
-    private int increment(int i) {
-        if (i + 1 == items.length) {
-            i = 0;
-        } else {
-            i += 1;
-        }
-        return i;
+    private int increment(int index, int i) {
+        return (index + i) % items.length;
     }
-
-    private int decrement(int i) {
-        if (i == 0) {
-            i = items.length - 1;
-        } else {
-            i -= 1;
+    private int decrement(int index, int i) {
+        int newIndex = index - i;
+        if (newIndex < 0) {
+            newIndex += items.length;
         }
-        return i;
+        return newIndex;
     }
 
     public void printDeque() {
-        int current = increment(nextFirst);
+        int current = increment(nextFirst, 1);
         for (int i = 0; i < this.size; i++) {
             System.out.print(items[current] + " ");
-            current = increment(current);
+            current = increment(current, 1);
             System.out.println();
         }
     }
