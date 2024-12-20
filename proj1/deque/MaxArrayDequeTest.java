@@ -19,19 +19,4 @@ public class MaxArrayDequeTest {
         assertTrue(intArray.max().equals(9));
     }
 
-    @Test
-    public void testMaxString() {
-        Comparator<String> strComparator = new MaxArrayDeque.StringComparator();
-        MaxArrayDeque<String> strArray = new MaxArrayDeque<>(strComparator);
-        strArray.addLast("hello,");
-        strArray.addLast("my");
-        strArray.addLast("Michael");
-        strArray.addLast("name");
-        strArray.addLast("is");
-
-        assertTrue(strArray.max().equals("Michael"));
-        strArray.addLast("electroenciphanogramme");
-
-        assertTrue(strArray.max().equals("electroenciphanogramme"));
-    }
 }

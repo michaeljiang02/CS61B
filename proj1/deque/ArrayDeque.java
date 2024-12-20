@@ -71,9 +71,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return items[newIndex];
     }
 
-    private int incrementIndex(int index, int i) {
-        return (index + i) % items.length;
-    }
+    private int incrementIndex(int index, int i) { return (index + i) % items.length; }
 
     private int decrementIndex(int index, int i) {
         return (index - i + items.length) % items.length;
