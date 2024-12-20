@@ -17,7 +17,7 @@ public class LinkedListDequeTest {
     public void addIsEmptySizeTest() {
 
         LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
-        assertEquals(0, lld1.size);
+        assertEquals(0, lld1.size());
 
         assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
         lld1.addFirst("front");
@@ -29,9 +29,6 @@ public class LinkedListDequeTest {
 
         lld1.addLast("middle");
         assertEquals(2, lld1.size());
-        LinkedListDeque.ItemNode last = lld1.sentinel.prev;
-        assertEquals("middle", last.item);
-        assertEquals("front", last.prev.item);
 
         lld1.addLast("back");
         assertEquals(3, lld1.size());

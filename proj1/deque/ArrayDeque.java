@@ -3,10 +3,10 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
-    T[] items;
+    private T[] items;
     private int nextFirst;
     private int nextLast;
-    int size;
+    private int size;
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
@@ -112,13 +112,14 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        if (o instanceof ArrayDeque) {
-            Iterator<T> iterator = (Iterator<T>) ((ArrayDeque<?>) o).iterator();
-            if (this.size == ((ArrayDeque<?>) o).size) {
+        if (o instanceof Deque otherDeque) {
+            if (this.size() == otherDeque.size()) {
+                int index = 0;
                 for (T item : this) {
-                    if (!item.equals(iterator.next())) {
+                    if (!item.equals(otherDeque.get(index))) {
                         return false;
                     }
+                    index += 1;
                 }
                 return true;
             }
@@ -135,7 +136,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         private int current;
         private int index;
 
-        public ArrayIterator() {
+        ArrayIterator() {
             current = incrementIndex(nextFirst, 1);
             index = 0;
         }
