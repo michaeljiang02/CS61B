@@ -2,10 +2,10 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>, Iterable {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     T[] items;
-    int nextFirst;
-    int nextLast;
+    private int nextFirst;
+    private int nextLast;
     private int size;
 
     public ArrayDeque() {
@@ -45,7 +45,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable {
         }
         nextLast = decrementIndex(nextLast, 1);
         size -= 1;
-        items[nextLast] = null;
         return items[nextLast];
     }
 
@@ -69,7 +68,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable {
         }
         nextFirst = incrementIndex(nextFirst, 1);
         size -= 1;
-        items[nextFirst] = null;
         return items[nextFirst];
     }
 
@@ -114,7 +112,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable {
         return new ArrayIterator();
     }
 
-    public class ArrayIterator implements Iterator<T> {
+    private class ArrayIterator implements Iterator<T> {
         private int current;
         private int index;
 

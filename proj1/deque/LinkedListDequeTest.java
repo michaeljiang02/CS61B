@@ -136,7 +136,7 @@ public class LinkedListDequeTest {
         ll.addLast("Michael");
 
         assertEquals("name", ll.get(2));
-        assertEquals("name", ll.recursiveGet(2));
+        assertEquals("name", ll.getRecursive(2));
     }
 
     @Test

@@ -18,14 +18,11 @@ public class ArrayDequeTest {
         assertEquals(1, alist1.size());
         alist1.addLast("last");
         assertEquals(2, alist1.size());
-        assertEquals("last", alist1.items[alist1.nextLast - 1]);
 
         alist1.removeLast();
         assertEquals(1, alist1.size());
-        assertEquals("middle", alist1.items[alist1.nextLast - 1]);
 
         alist1.addFirst("first");
-        assertEquals("first", alist1.items[alist1.nextFirst + 1]);
 
         alist1.addFirst("x");
         alist1.addFirst("x");
@@ -41,8 +38,6 @@ public class ArrayDequeTest {
         alist2.removeFirst();
         alist2.removeLast();
         //Nothing should happen
-        assertEquals(3, alist2.nextFirst);
-        assertEquals(4, alist2.nextLast);
 
         alist2.addLast("middle");
         alist2.addLast("last");
@@ -56,7 +51,6 @@ public class ArrayDequeTest {
         alist2.addFirst("x");
         Object last = alist2.removeLast();
         assertEquals("last", last);
-        assertEquals("middle", alist2.items[alist2.nextLast - 1]);
 
         Object item = alist2.get(5);
         Object item2 = alist2.get(2);
