@@ -1,10 +1,12 @@
 package deque;
 
-public class ArrayDeque<T> {
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T>, Iterable {
     T[] items;
     int nextFirst;
     int nextLast;
-    int size;
+    private int size;
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
@@ -13,66 +15,99 @@ public class ArrayDeque<T> {
         size = 0;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public int size() {
         return this.size;
     }
 
+    @Override
     public void addLast(T item) {
         items[nextLast] = item;
-        nextLast = increment(nextLast, 1);
+        nextLast = incrementIndex(nextLast, 1);
         size += 1;
     }
 
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
         }
-        nextLast = decrement(nextLast, 1);
+        nextLast = decrementIndex(nextLast, 1);
         size -= 1;
         return items[nextLast];
     }
 
+    @Override
     public void addFirst(T item) {
+
         items[nextFirst] = item;
-        nextFirst = decrement(nextFirst, 1);
+        nextFirst = decrementIndex(nextFirst, 1);
         size += 1;
     }
 
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
         }
-        nextFirst = increment(nextFirst, 1);
+        nextFirst = incrementIndex(nextFirst, 1);
         size -= 1;
         return items[nextFirst];
     }
 
     public T get(int index) {
-        int newIndex = increment(nextFirst, index + 1);
+        int newIndex = incrementIndex(nextFirst, index + 1);
         return items[newIndex];
     }
 
-    private int increment(int index, int i) {
+    private int incrementIndex(int index, int i) {
         return (index + i) % items.length;
     }
-    private int decrement(int index, int i) {
-        int newIndex = index - i;
-        if (newIndex < 0) {
-            newIndex += items.length;
-        }
-        return newIndex;
+
+    private int decrementIndex(int index, int i) {
+        return (index - i + items.length) % items.length;
     }
 
+    @Override
     public void printDeque() {
-        int current = increment(nextFirst, 1);
+        int current = incrementIndex(nextFirst, 1);
         for (int i = 0; i < this.size; i++) {
             System.out.print(items[current] + " ");
-            current = increment(current, 1);
-            System.out.println();
+            current = incrementIndex(current, 1);
+        }
+        System.out.println();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayIterator();
+    }
+
+    public class ArrayIterator implements Iterator<T> {
+        private int current;
+        private int index;
+
+        public ArrayIterator() {
+            current = incrementIndex(nextFirst, 1);
+            index = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            T returnItem = items[current];
+            current = incrementIndex(current, 1);
+            index += 1;
+            return returnItem;
         }
     }
 }

@@ -14,8 +14,7 @@ package randomizedtest;
  size: The number of items in the list should be size.
 */
 
-public class
-AListNoResizing<Item> {
+public class AListNoResizing<Item> {
     Item[] items;
     int size;
 
