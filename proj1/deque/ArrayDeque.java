@@ -15,11 +15,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size = 0;
     }
 
-    public T first() {
-        return items[nextFirst + 1];
-    }
-
-
     @Override
     public int size() {
         return this.size;
