@@ -15,10 +15,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size = 0;
     }
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
+    public T first() {
+        return items[nextFirst + 1];
     }
+
 
     @Override
     public int size() {
@@ -97,14 +97,33 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private void resize(int capacity) {
         T[] resizedArray = (T[]) new Object[capacity];
         int index = 0;
-        for (Object item : this) {
-            resizedArray[index] = (T) item;
+        for (T item : this) {
+            resizedArray[index] = item;
             index += 1;
         }
         items = resizedArray;
         nextFirst = decrementIndex(0, 1);
         nextLast = size;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof ArrayDeque otherArray) {
+            Iterator<T> iterator = otherArray.iterator();
+            if (this.size == otherArray.size) {
+                for (T item : this) {
+                    if (!item.equals(iterator.next())) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

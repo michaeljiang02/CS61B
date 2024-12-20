@@ -101,4 +101,26 @@ public class ArrayDequeTest {
              ad.removeLast();
         }
     }
+
+    @Test
+    public void testEquals() {
+        ArrayDeque<String> ad = new ArrayDeque<>();
+        ad.addLast("hello,");
+        ad.addLast("my");
+        ad.addLast("name");
+        ad.addLast("is");
+        ad.addLast("Michael");
+
+        ArrayDeque<String> ad1 = new ArrayDeque<>();
+        ad1.addLast("hello,");
+        ad1.addLast("my");
+        ad1.addLast("name");
+        ad1.addLast("is");
+        ad1.addLast("Michael");
+
+        assertTrue(ad.equals(ad1));
+
+        ad1.removeLast();
+        assertFalse(ad.equals(ad1));
+    }
 }

@@ -26,18 +26,6 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         size = 0;
     }
 
-    public LinkedListDeque(T i) {
-        sentinel = new ItemNode(null, null, null);
-        sentinel.next = new ItemNode(sentinel, i, sentinel);
-        sentinel.prev = sentinel.next;
-        size = 1;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
     @Override
     public int size() {
         return size;
@@ -118,6 +106,25 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             return node.item;
         }
         return recursiveHelper(node.next, index - 1);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof LinkedListDeque otherList) {
+            Iterator<T> iterator = otherList.iterator();
+            if (this.size == otherList.size) {
+                for (T item : this) {
+                    if (!item.equals(iterator.next())) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
