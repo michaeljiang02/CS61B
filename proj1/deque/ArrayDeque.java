@@ -6,7 +6,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     T[] items;
     private int nextFirst;
     private int nextLast;
-    private int size;
+    int size;
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
@@ -112,9 +112,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        if (o instanceof ArrayDeque otherArray) {
-            Iterator<T> iterator = otherArray.iterator();
-            if (this.size == otherArray.size) {
+        if (o instanceof ArrayDeque) {
+            Iterator<T> iterator = (Iterator<T>) ((ArrayDeque<?>) o).iterator();
+            if (this.size == ((ArrayDeque<?>) o).size) {
                 for (T item : this) {
                     if (!item.equals(iterator.next())) {
                         return false;
