@@ -94,4 +94,17 @@ public class ArrayDequeTest {
             System.out.print(item);
         }
     }
+
+    @Test
+    public void testResize() {
+        ArrayDeque<String> ad = new ArrayDeque<>();
+        ad.addLast("first");
+        for (int i = 0; i < 50; i++) {
+            ad.addLast("x");
+        }
+        ad.addLast("last");
+        for (int i = 0; i < 40; i++) {
+             ad.removeLast();
+        }
+    }
 }

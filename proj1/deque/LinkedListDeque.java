@@ -110,7 +110,8 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable {
     public T recursiveGet(int index) {
         return recursiveHelper(sentinel.next, index);
     }
-    public T recursiveHelper(ItemNode node, int index) {
+
+    private T recursiveHelper(ItemNode node, int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Choose appropriate index");
         } else if (index == 0) {
