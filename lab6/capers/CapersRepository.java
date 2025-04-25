@@ -34,10 +34,10 @@ public class CapersRepository {
      */
     public static void setupPersistence() throws IOException {
         if (!CAPERS_FOLDER.exists()) {
-            CAPERS_FOLDER.mkdir();
+            CAPERS_FOLDER.mkdirs();
         }
         if (!Dog.DOG_FOLDER.exists()) {
-            Dog.DOG_FOLDER.mkdir();
+            Dog.DOG_FOLDER.mkdirs();
         }
         if (!STORY_FILE.exists()) {
             STORY_FILE.createNewFile();
