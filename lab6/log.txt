@@ -1,0 +1,21 @@
+"/Library/Developer/CommandLineTools/usr/bin/make" -C testing PYTHON=python3 TESTER_FLAGS="" check
+Testing application capers.Main...
+python3 tester.py  --src=our-src our/*.in
+test01-basic-story:
+ERROR (java capers.Main exited with code 1)
+test02-two-part-story:
+ERROR (java capers.Main exited with code 1)
+test03-basic-dog:
+ERROR (java capers.Main exited with code 1)
+test04-dog-birthday:
+ERROR (java capers.Main exited with code 1)
+test05-two-dogs:
+ERROR (java capers.Main exited with code 1)
+test06-two-birthdays:
+ERROR (java capers.Main exited with code 1)
+test07-one-dog-two-birthdays:
+ERROR (java capers.Main exited with code 1)
+
+Ran 7 tests. 0 passed.
+make[1]: *** [check] Error 1
+make: *** [check] Error 2
